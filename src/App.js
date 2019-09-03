@@ -6,10 +6,9 @@ import 'bootstrap/dist//css/bootstrap.min.css';
 
 function App() {
   return (
-    <div className="App">
-      <Navigation brand="Contact Manager" button="home"></Navigation>
-      <AddContact></AddContact>
-      <div className="container">
+    <div className='App'>
+      <Navigation brand='Contact Manager' button='home'></Navigation>
+      <div className='container'>
         <Contacts></Contacts>
       </div>
     </div>
