@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Contact from './Contacts';
 import Delete from './DeleteContact';
 import AddContact from './AddContact';
+import ChangeJob from './ChangeJob';
 
 export default class ContactState extends Component {
   state = {
@@ -52,11 +53,23 @@ export default class ContactState extends Component {
     });
   };
 
+  submitJob = (id, job) => {
+    const { contacts } = this.state;
+
+    const jobId = contacts.findIndex(contact => contact.id === id);
+    contacts[jobId].job = job;
+
+    this.setState({
+      contacts
+    });
+  };
+
   render() {
     const { contacts } = this.state;
     return (
       <React.Fragment>
         <Delete deleteClick={this.deleteContact} />
+        <ChangeJob submitNewJob={this.submitJob} />
         <AddContact submitClick={this.submitContact} />
         {contacts.map(contact => (
           <Contact key={contact.id} contact={contact} />
