@@ -7,21 +7,21 @@ export default class ChangeJob extends Component {
   };
 
   handleSubmitJob = () => {
-      const {idContact, jobContact} = this.state;
-      this.props.submitNewJob(idContact, jobContact);
-  }
+    const { idContact, jobContact } = this.state;
+    this.props.submitNewJob(idContact, jobContact);
+  };
 
   handleId = e => {
-      this.setState ({idContact: e.target.value})
-  }
+    this.setState({ idContact: e.target.value });
+  };
 
   handleNewJob = e => {
-      this.setState ({jobContact: e.target.value})
-  }
+    this.setState({ jobContact: e.target.value });
+  };
 
   render() {
     return (
-      <div>
+      <div className="change">
         <h3>Change Job</h3>
         <input
           type="text"

@@ -3,6 +3,7 @@ import Contact from './Contacts';
 import Delete from './DeleteContact';
 import AddContact from './AddContact';
 import ChangeJob from './ChangeJob';
+import Sort from './SortContact';
 
 export default class ContactState extends Component {
   state = {
@@ -64,6 +65,16 @@ export default class ContactState extends Component {
     });
   };
 
+  submitNewSort = sortBy => {
+    const { contacts } = this.state;
+    let sortedContacts = [...contacts];
+    sortedContacts.sort((a, b) => b.id - a.id);
+
+    this.setState({
+      contacts: sortedContacts
+    });
+  };
+
   render() {
     const { contacts } = this.state;
     return (
@@ -71,6 +82,7 @@ export default class ContactState extends Component {
         <Delete deleteClick={this.deleteContact} />
         <ChangeJob submitNewJob={this.submitJob} />
         <AddContact submitClick={this.submitContact} />
+        <Sort submitSort={this.submitNewSort} />
         {contacts.map(contact => (
           <Contact key={contact.id} contact={contact} />
         ))}
