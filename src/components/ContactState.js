@@ -22,13 +22,13 @@ export default class ContactState extends Component {
       },
       {
         id: '3',
-        name: 'Misha',
+        name: 'Pam',
         job: 'SAP architect',
         os: 'Win7'
       },
       {
         id: '4',
-        name: 'Misha',
+        name: 'Vlad',
         job: 'SAP architect',
         os: 'Win7'
       }

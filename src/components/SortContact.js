@@ -5,7 +5,8 @@ export default class SortContact extends Component {
     sortBy: ''
   };
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     const { sortBy } = this.state;
     this.props.submitSort(sortBy);
   };
