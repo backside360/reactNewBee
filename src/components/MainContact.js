@@ -68,11 +68,30 @@ export default class ContactState extends Component {
   submitNewSort = sortBy => {
     const { contacts } = this.state;
     let sortedContacts = [...contacts];
-    sortedContacts.sort((a, b) => b.id - a.id);
+    switch (sortBy) {
+      case 'id':
+        sortedContacts.sort((a, b) => b.id - a.id);
+        break;
+      case 'Name':
+        sortedContacts.sort((a, b) => a.name > b.name);
+        break;
+      default:
+        sortedContacts.sort((a, b) => a.id - b.id);
+    }
+    // }
 
     this.setState({
       contacts: sortedContacts
     });
+  };
+
+  submitNewReset = clicked => {
+    const { contacts } = this.state;
+    if (clicked) {
+      this.setState({
+        contacts
+      });
+    }
   };
 
   render() {
@@ -82,7 +101,10 @@ export default class ContactState extends Component {
         <Delete deleteClick={this.deleteContact} />
         <ChangeJob submitNewJob={this.submitJob} />
         <AddContact submitClick={this.submitContact} />
-        <Sort submitSort={this.submitNewSort} />
+        <Sort
+          submitSort={this.submitNewSort}
+          submitReset={this.submitNewReset}
+        />
         {contacts.map(contact => (
           <Contact key={contact.id} contact={contact} />
         ))}

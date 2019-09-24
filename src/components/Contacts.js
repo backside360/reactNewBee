@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class Contacts extends Component {
   state = {
-    showContactInfo: false
+    showContactInfo: true
   };
 
   onShowClick = e => {

@@ -36,7 +36,7 @@ export default class AddContact extends Component {
           type='text'
           placeholder='enter id'
           value={this.state.idContact}
-          onChange={this.handleChangeId}
+          onChange={this.handleChangeId}i
         />
         <input
           type='text'

@@ -1,6 +1,6 @@
 import React from 'react';
 import Navigation from './components/Nav';
-import Contacts from './components/ContactState';
+import Contacts from './components/MainContact';
 import 'bootstrap/dist//css/bootstrap.min.css';
 
 function App() {
