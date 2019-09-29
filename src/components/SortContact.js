@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 export default class SortContact extends Component {
   state = {
-    sortBy: '',
+    column: '',
+    type: '',
     clicked: false
   };
 
@@ -13,12 +14,12 @@ export default class SortContact extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { sortBy } = this.state;
-    this.props.submitSort(sortBy);
+    const { column, type } = this.state;
+    this.props.submitSort(column, type);
   };
 
   handleChange = e => {
-    this.setState({ sortBy: e.target.value });
+    this.setState({ column: e.target.value, type: e.target.name });
   };
 
   // handleReset = () => {
@@ -31,9 +32,13 @@ export default class SortContact extends Component {
         <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
           <label>
             Sort items by:
-            <select value={this.state.value} onChange={this.handleChange}>
-              <option value={this.state.id}>id</option>
-              <option value={this.state.name}>Name</option>
+            <select onChange={this.handleChange}>
+              <option value="id" name="number">
+                id
+              </option>
+              <option value="Name" name="string">
+                Name
+              </option>
             </select>
           </label>
           <input type="submit" value="Sort" />

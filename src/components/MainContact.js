@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Contact from './Contacts';
 import Delete from './DeleteContact';
 import AddContact from './AddContact';
 import ChangeJob from './ChangeJob';
 import Sort from './SortContact';
 
-export default class ContactState extends Component {
+export default class ContactState extends PureComponent {
   state = {
     contacts: [
       {
@@ -56,33 +56,17 @@ export default class ContactState extends Component {
 
   submitJob = (id, job) => {
     const { contacts } = this.state;
-
-    const jobId = contacts.findIndex(contact => contact.id === id);
-    contacts[jobId].job = job;
+    const newJobContacts = [...contacts];
+    const jobId = newJobContacts.findIndex(contact => contact.id === id);
+    newJobContacts[jobId] = { ...newJobContacts[jobId], job: job };
 
     this.setState({
-      contacts
+      contacts: newJobContacts
     });
   };
 
-  submitNewSort = sortBy => {
-    const { contacts } = this.state;
-    let sortedContacts = [...contacts];
-    switch (sortBy) {
-      case 'id':
-        sortedContacts.sort((a, b) => b.id - a.id);
-        break;
-      case 'Name':
-        sortedContacts.sort((a, b) => a.name > b.name);
-        break;
-      default:
-        sortedContacts.sort((a, b) => a.id - b.id);
-    }
-    // }
-
-    this.setState({
-      contacts: sortedContacts
-    });
+  submitNewSort = (column, type) => {
+    return column, type;
   };
 
   submitNewReset = clicked => {
@@ -96,6 +80,13 @@ export default class ContactState extends Component {
 
   render() {
     const { contacts } = this.state;
+    const createSort = (column, type) => {
+      if (type === 'number') {
+        return (a, b) => a[column] - b[column];
+      } else if (type === 'string') {
+        return (a, b) => (a[column] > b[column]) - (a[column] < b[column]);
+      }
+    };
     return (
       <React.Fragment>
         <Delete deleteClick={this.deleteContact} />
@@ -105,7 +96,7 @@ export default class ContactState extends Component {
           submitSort={this.submitNewSort}
           submitReset={this.submitNewReset}
         />
-        {contacts.map(contact => (
+        {contacts.sort(createSort(this.submitNewSort)).map(contact => (
           <Contact key={contact.id} contact={contact} />
         ))}
       </React.Fragment>
