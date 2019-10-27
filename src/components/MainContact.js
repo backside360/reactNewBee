@@ -4,6 +4,9 @@ import Delete from './DeleteContact';
 import AddContact from './AddContact';
 import ChangeJob from './ChangeJob';
 import Sort from './SortContact';
+import { createSort } from '../helpers/createSort';
+import DirectionBtn from './DirectionBtn';
+import ChangeName from './ChangeName';
 
 export default class ContactState extends PureComponent {
   state = {
@@ -32,7 +35,12 @@ export default class ContactState extends PureComponent {
         job: 'SAP architect',
         os: 'Win7'
       }
-    ]
+    ],
+    sort: {
+      id: 'id',
+      column: 'number'
+    },
+    sortDirection: true
   };
 
   deleteContact = id => {
@@ -54,6 +62,17 @@ export default class ContactState extends PureComponent {
     });
   };
 
+  updateName = (id, name) => {
+    const { contacts } = this.state;
+    const newNameContacts = [...contacts];
+    const nameId = newNameContacts.findIndex(contact => contact.id === id);
+    newNameContacts[nameId] = { ...newNameContacts[nameId], name: name };
+
+    this.setState({
+      contacts: newNameContacts
+    });
+  };
+
   submitJob = (id, job) => {
     const { contacts } = this.state;
     const newJobContacts = [...contacts];
@@ -65,38 +84,49 @@ export default class ContactState extends PureComponent {
     });
   };
 
-  submitNewSort = (column, type) => {
-    return column, type;
+  submitNewSort = (optionId, type) => {
+    this.setState({
+      sort: {
+        id: optionId,
+        column: type
+      }
+    });
   };
 
-  submitNewReset = clicked => {
-    const { contacts } = this.state;
-    if (clicked) {
-      this.setState({
-        contacts
-      });
-    }
+  submitNewReset = () => {
+    this.setState({
+      sort: {
+        id: 'id',
+        column: 'number'
+      }
+    });
   };
+
+  toggleSortDirection = () =>
+    this.setState({ sortDirection: !this.state.sortDirection });
 
   render() {
-    const { contacts } = this.state;
-    const createSort = (column, type) => {
-      if (type === 'number') {
-        return (a, b) => a[column] - b[column];
-      } else if (type === 'string') {
-        return (a, b) => (a[column] > b[column]) - (a[column] < b[column]);
-      }
-    };
+    const { contacts, sortDirection } = this.state;
+    const { id, column } = this.state.sort;
+
     return (
       <React.Fragment>
-        <Delete deleteClick={this.deleteContact} />
+        {this.props.canDelete ? (
+          <Delete deleteClick={this.deleteContact} />
+        ) : null}
         <ChangeJob submitNewJob={this.submitJob} />
+        <ChangeName submitNewName={this.updateName} />
         <AddContact submitClick={this.submitContact} />
         <Sort
           submitSort={this.submitNewSort}
           submitReset={this.submitNewReset}
         />
-        {contacts.sort(createSort(this.submitNewSort)).map(contact => (
+        <DirectionBtn
+          toggleSortDirection={this.toggleSortDirection}
+          direct={sortDirection}
+        />
+
+        {contacts.sort(createSort(id, column, sortDirection)).map(contact => (
           <Contact key={contact.id} contact={contact} />
         ))}
       </React.Fragment>

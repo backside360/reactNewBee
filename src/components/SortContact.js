@@ -2,43 +2,43 @@ import React, { Component } from 'react';
 
 export default class SortContact extends Component {
   state = {
-    column: '',
-    type: '',
-    clicked: false
+    id: 'id'
   };
 
-  // handleResetSumbit = () => {
-  //   const { clicked } = this.state;
-  //   this.props.submitReset(clicked);
-  // };
+  options = [
+    {
+      id: 'id',
+      type: 'number'
+    },
+    {
+      id: 'name',
+      type: 'string'
+    }
+  ];
+
+  handleResetSumbit = () => this.props.submitReset();
 
   handleSubmit = e => {
     e.preventDefault();
-    const { column, type } = this.state;
-    this.props.submitSort(column, type);
+    const { id } = this.state;
+    const { id: optionId, type } = this.options.find(elem => elem.id === id);
+    this.props.submitSort(optionId, type);
   };
 
   handleChange = e => {
-    this.setState({ column: e.target.value, type: e.target.name });
+    this.setState({ id: e.target.value });
   };
-
-  // handleReset = () => {
-  //   this.setState({ clicked: true });
-  // };
 
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
+        <form onSubmit={this.handleSubmit} onReset={this.handleResetSumbit}>
           <label>
             Sort items by:
             <select onChange={this.handleChange}>
-              <option value="id" name="number">
-                id
-              </option>
-              <option value="Name" name="string">
-                Name
-              </option>
+              {this.options.map(elem => (
+                <option value={elem.id}>{elem.id}</option>
+              ))}
             </select>
           </label>
           <input type="submit" value="Sort" />

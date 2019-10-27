@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Navigation brand="Contact Manager" button="home"></Navigation>
       <div className="container">
-        <Contacts></Contacts>
+        <Contacts canDelete></Contacts>
       </div>
     </div>
   );
